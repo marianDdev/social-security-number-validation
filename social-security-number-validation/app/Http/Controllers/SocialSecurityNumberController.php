@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\CountiesRepository;
-use App\Services\SocialSecurityNumberService;
+//use App\Services\SocialSecurityNumberService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Validation\Factory as Validator;
@@ -13,18 +13,18 @@ class SocialSecurityNumberController
 {
     private Request $request;
     private ResponseFactory $response;
-    private SocialSecurityNumberService $socialSecurityNumberService;
+    //private SocialSecurityNumberService $socialSecurityNumberService;
     private CountiesRepository $countiesRepository;
     /**
      * @var Validator
      */
     private Validator $validator;
 
-    public function __construct(Request $request, ResponseFactory $response, SocialSecurityNumberService $socialSecurityNumberService, CountiesRepository $countiesRepository, Validator $validator)
+    public function __construct(Request $request, ResponseFactory $response, CountiesRepository $countiesRepository, Validator $validator)
     {
         $this->request = $request;
         $this->response = $response;
-        $this->socialSecurityNumberService = $socialSecurityNumberService;
+        //$this->socialSecurityNumberService = $socialSecurityNumberService;
         $this->countiesRepository = $countiesRepository;
         $this->validator = $validator;
     }
@@ -37,7 +37,7 @@ class SocialSecurityNumberController
 
     public function validate() {
 
-        $input = "1870325510022";
+        $input = "2870325010022";
 
         $inputToArray = str_split($input);
 
@@ -91,9 +91,8 @@ class SocialSecurityNumberController
         }
 
         //counties codes
-        $countyCodes = $this->countiesRepository->getCountiesCodes()->toArray();
-
-
+        $countyCodes = array_values(array_values($this->countiesRepository->getCountiesCodes()));
+dd($countyCodes);
         //unique numbers NNN
         $uniqueNumbers  = [];
 
@@ -167,20 +166,20 @@ class SocialSecurityNumberController
         $femaleCodes = [2, 4, 6, 8];
 
         if(in_array($sexCode, $maleCodes)) {
-            $sex === "masculin";
+            $sex = "masculin";
         } elseif (in_array($sexCode, $femaleCodes)) {
-            $sex === "feminin";
+            $sex = "feminin";
         } elseif ($sexCode === 9) {
-            $sex === "strain";
+            $sex = "strain";
         }
 
         $year = null;
 
-        if($sexCode === 1 || $sexCode === 2) {
+        if($sexCode = 1 || $sexCode = 2) {
             $year = "19" . $yearCode;
-        } elseif ($sexCode === 3 || $sexCode === 4) {
+        } elseif ($sexCode = 3 || $sexCode = 4) {
             $year = "18" . $yearCode;
-        } elseif ($sexCode === 5 || $sexCode === 6) {
+        } elseif ($sexCode = 5 || $sexCode = 6) {
             $year = "20" . $yearCode;
         }
 

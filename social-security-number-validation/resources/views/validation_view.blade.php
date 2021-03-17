@@ -27,7 +27,7 @@
                 <form action="/validate" method="post">
                     @csrf
                     <label for="cnp">
-                        <input id="cnp">
+                        <input id="cnp" name="cnp">
                     </label>
                     <button type="submit">Verifica CNP</button>
                 </form>

@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e074284e-7076-47a0-94a6-5b7a90648e41" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-security-number-validation/app/Http/Controllers/SocialSecurityNumberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/app/Http/Controllers/SocialSecurityNumberController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-security-number-validation/app/Repositories/CountiesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/app/Repositories/CountiesRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/social-security-number-validation/app/Services/SocialSecurityNumberService.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/app/Services/SocialSecurityNumberService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-security-number-validation/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-security-number-validation/resources/views/validate_ssn.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/resources/views/validation_view.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social-security-number-validation/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/social-security-number-validation/resources/views/validation_view.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/social-security-number-validation/resources/views/validation_view.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +190,8 @@
       <option name="presentableId" value="Default" />
       <updated>1615962504989</updated>
       <workItem from="1615962507706" duration="782000" />
-      <workItem from="1615963334227" duration="11635000" />
+      <workItem from="1615963334227" duration="12123000" />
+      <workItem from="1615977018024" duration="2085000" />
     </task>
     <servers />
   </component>
