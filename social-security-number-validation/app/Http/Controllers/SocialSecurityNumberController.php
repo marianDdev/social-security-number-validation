@@ -22,9 +22,9 @@ class SocialSecurityNumberController
 
     public function __invoke(): JsonResponse
     {
-       $data = $this->socialSecurityNumberService->validateSocialSecurityNumber($this->request->input());
+      
 
-       return $this->response->view("validate_ssn", ["data" => $data]);
+       return $this->response->success($this->socialSecurityNumberService->validateSocialSecurityNumber($this->request->input()));
     }
 
 }
