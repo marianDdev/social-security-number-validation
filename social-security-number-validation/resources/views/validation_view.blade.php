@@ -24,7 +24,23 @@
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                {{  $data }}
+                <form action="/validate" method="post">
+                    @csrf
+                    <label for="cnp">
+                        <input id="cnp">
+                    </label>
+                    <button type="submit">Verifica CNP</button>
+                </form>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </div>
         </div>
     </body>

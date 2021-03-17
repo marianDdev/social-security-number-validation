@@ -18,5 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/validate', SocialSecurityNumberController::class)->name("validate");
+Route::get('/validate/cnp', [SocialSecurityNumberController::class, 'getValidationView'])->name("get");
+Route::post('/validate', [SocialSecurityNumberController::class, 'validate'])->name("validate");
 

@@ -3,45 +3,44 @@
 namespace App\Services;
 
 use App\Repositories\CountiesRepository;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 class SocialSecurityNumberService
 {
-    private $validator;
-    private $countiesRepository;
+    private CountiesRepository $countiesRepository;
 
-    public function __construct(Validator $validator, CountiesRepository $countiesRepository)
+    public function __construct(CountiesRepository $countiesRepository)
     {
-        $this->validator = $validator;
         $this->countiesRepository = $countiesRepository;
     }
 
-    public function validateSocialSecurityNumber(string $input): array
+    public function validateSocialSecurityNumber(): array
     {
 
     $inputToArray = str_split($input);
+    $sexCode = $inputToArray[0];
+    $yearCode = $inputToArray[1] . $inputToArray[2];
+    $monthCode = $inputToArray[3] . $inputToArray[4];
+    $dayCode = $inputToArray[5] . $inputToArray[6];
+    $countyCode = $inputToArray[7] . $inputToArray[8];
+    $uniqueCode = $inputToArray[9] . $inputToArray[10]. $inputToArray[11];
+    $controlCode = $inputToArray[12];
 
     //sex codes
     $sexCodes = [1,2,3,4,5,6,7,8,9];
-    $sexCode = $inputToArray[0];
-
 
     //years codes
-    $yearsCodes  = [];
+    $yearCodes  = [];
 
     for($i=0; $i < 10; $i++) {
         $code = 0 . $i;
-        $yearsCodes[] = $code;
+        $yearCodes[] = $code;
     }
 
     $lastYearCodes = range(10, 99);
 
     foreach($lastYearCodes as $code) {
-        $yearsCodes[] = $code;
+        $yearCodes[] = $code;
     }
-
-    $yearCode = $inputToArray[1] . $inputToArray[2];
 
     //months codes
     $monthCodes  = [10, 11, 12];
@@ -52,8 +51,6 @@ class SocialSecurityNumberService
         $monthCodes[] = $code;
     }
 
-    $monthCode = $inputToArray[3] . $inputToArray[4];
-
     //days codes
     $lastDay = 30;
     if(in_array($monthCode, $monthsWithThirtyOne)) {
@@ -62,16 +59,16 @@ class SocialSecurityNumberService
         $lastDay = 28;
     }
 
-    $daysCodes  = range(10, $lastDay);
+    $dayCodes  = range(10, $lastDay);
 
     for($i=1; $i < 10; $i++) {
         $code = 0 . $i;
-        $daysCodes[] = $code;
+        $dayCodes[] = $code;
     }
 
     //counties codes
-    $countiesCodes = $this->countiesRepository->getCountiesCodes();
-    $countyCode = $inputToArray[9] . $inputToArray[10] . $inputToArray[11];
+    $countyCodes = $this->countiesRepository->getCountiesCodes();
+
 
     //unique numbers NNN
     $uniqueNumbers  = [];
@@ -106,53 +103,80 @@ class SocialSecurityNumberService
 
     $modulo = array_sum($multiplied) % 11;
 
-    $controlNumber = $modulo = 10 ? 1 : $modulo;
+    $controlCode = $modulo = 10 ? 1 : $modulo;
 
 
+//
+//
+//    $validated = $this->validator->make(
+//        [$sexCode, $yearCode, $monthCode, $dayCode, $countyCode,$uniqueCode,$controlCode],
+//        [
+//            $sexCode => ["digits:1", Rule::in($sexCodes)],
+//            $yearCode => ["digits:2", Rule::in($yearCodes)],
+//            $monthCode => ["digits:2", Rule::in($monthCodes)],
+//            $dayCode => ["digits:2", Rule::in($dayCodes)],
+//            $countyCode => ["digits:2", Rule::in($countiesCodes)],
+//            $uniqueCode => ["digits:3", Rule::in($uniqueNumbers)],
+//            $controlCode => ["digits:1"],
+//        ],
+//        [
+//            $sexCode."digits" => "sex code must be one digit",
+//            $sexCode."in" => "sex code must be one of this values: :values",
+//            $yearCode."digits" => "year code must be two digits",
+//            $yearCode."in" => "year code must be one of this values: :values",
+//            $monthCode."digits" => "month code must be two digits",
+//            $monthCode."in" => "month code must be one of this values: :values",
+//            $dayCode."digits" => "day code must be two digits",
+//            $dayCode."in" => "day code must be one of this values: :values",
+//            $countyCode."digits" => "county code must be two digits",
+//            $countyCode."in" => "county code must be one of this values: :values",
+//            $uniqueCode."digits" => "unique number must be three digits",
+//            $uniqueCode."in" => "unique  number must be one of this values: :values",
+//            $controlNumber."digits" => "contro number must be one digit",
+//        ]
+//    )->validate();
+//
 
-    $validated = $this->validator->make(
-        $input,
-        [
-            "sexCode" => ["digits:1", Rule::in($sexCodes)],
-            "yearCode" => ["digits:2", Rule::in($yearsCodes)],
-            "monthCode" => ["digits:2", Rule::in($monthCodes)],
-            "dayCode" => ["digits:2", Rule::in($daysCodes)],
-            "countyCode" => ["digits:2", Rule::in($countiesCodes)],
-            "uniqueNumber" => ["digits:3", Rule::in($uniqueNumbers)],
-            "controlNumber" => ["digits:1"],
-        ],
-        [
-            "sexCode.digits" => "sex code must be one digit",
-            "sexCode.in" => "sex code must be one of this values: :values",
+//        $this->validator->validate(
+//            $input,
+//            [
+//                "cnp" => ["required", "digits:13"]
+//            ],
+//            [
+//                "cnp.required" => "te rog introdu cnp",
+//                "cnp.digits" => "cnp trebuie sa fie format din :digits cifre"
+//            ]
+//        );
 
-            "yearCode.digits" => "year code must be two digits",
-            "yearCode.in" => "year code must be one of this values: :values",
+        $errors = [];
 
-            "monthCode.digits" => "month code must be two digits",
-            "monthCode.in" => "month code must be one of this values: :values",
+        if(mb_strlen($sexCode) != 1 || !in_array($sexCode, $sexCodes)) {
+            $errors[] = "Introdu un cod de sex valid";
+        }
 
-            "dayCode.digits" => "day code must be two digits",
-            "dayCode.in" => "day code must be one of this values: :values",
+        if(mb_strlen($yearCode) != 2 || !in_array($yearCode, $yearCodes)) {
+            $errors[] = "Introdu cod an nastere valid";
+        }
 
-            "countyCode.digits" => "county code must be two digits",
-            "countyCode.in" => "county code must be one of this values: :values",
+        if(mb_strlen($monthCode) != 2 || !in_array($monthCode, $monthCodes)) {
+            $errors[] = "Introdu cod luna nastere valid";
+        }
 
-            "uniqueNumber.digits" => "unique number must be three digits",
-            "uniqueNumber.in" => "unique  number must be one of this values: :values",
+        if(mb_strlen($dayCode) != 2 || !in_array($dayCode, $dayCodes)) {
+            $errors[] = "Introdu cod zi nastere valid";
+        }
 
-            "controlNumber.digits" => "contro number must be one digit",
-        ]
-    )->validate();
+        if(mb_strlen($countyCode) != 2 || !in_array($countyCode, $countyCodes)) {
+            $errors[] = "Introdu cod judet valid";
+        }
 
-    [
-    "sexCode" => $sexCode,
-    "yearCode" => $yearCode,
-    "monthCode" => $monthCode,
-    "dayCode" => $dayCode,
-    "countyCode" => $countyCode,
-    "uniqueNumber" => $uniqueNumber,
-    "controlNumber" => $controlNumber
-    ] = $validated;
+        if(mb_strlen($uniqueCode) != 3 || !in_array($uniqueCode, $uniqueNumbers)) {
+            $errors[] = "Introdu cod unic valid";
+        }
+
+        if(mb_strlen($controlCode) != 1) {
+            $errors[] = "Introdu cod control valid";
+        }
 
     $dto = [];
 
@@ -181,13 +205,12 @@ class SocialSecurityNumberService
 
     $birthDay = $dayCode ."/". $monthCode . "/". $year;
 
+    $dto["errors"] = $errors;
     $dto["birthDay"] = $birthDay;
     $dto["county"] = $county;
     $dto["sex"] = $sex;
 
     return $dto;
-
-
 
     }
 

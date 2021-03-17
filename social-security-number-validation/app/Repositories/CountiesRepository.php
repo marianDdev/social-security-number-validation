@@ -2,25 +2,19 @@
 
 namespace App\Repositories;
 
-use Database\Seeders\CountySeeder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CountiesRepository
 {
-    private $countySeeder;
 
-    public function __construct(CountySeeder $countySeeder)
-    {
-        $this->countySeeder = $countySeeder;
-    }
-
-    public function getCountiesCodes(): array
+    public function getCountiesCodes(): Collection
     {
         return DB::table("county_codes")->select("county_code")->get();
     }
 
-    public function getCountyByCode($countyCode): string
+    public function getCountyByCode($countyCode)
     {
-        return DB::table("county_codes")->select("county_name")->where("county_code", $countyCode)->first();
+        return DB::table("county_codes")->select("county_name")->where("county_code", $countyCode)->find(1);
     }
 }
