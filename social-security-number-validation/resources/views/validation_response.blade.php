@@ -22,26 +22,24 @@
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-<h1>HELLO!!!</h1>
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <form action="/validate" method="post">
-                    @csrf
-                    <label for="cnp">
-                        <input id="cnp" name="cnp">
-                    </label>
-                    <button type="submit">Verifica CNP-UL VIETII</button>
-                </form>
 
-                @if ($errors->any())
+            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+                @if ($errorMessages)
                     <div class="alert alert-danger">
+                        <h3 style="color: white">CNP invalid - aplica recomandarile listate mai jos</h3>
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                            @foreach ($errorMessages as $err)
+                                <li>{{ $err }}</li>
                             @endforeach
                         </ul>
                     </div>
+                @else
+                    <h3 style="color: white">CNP valid</h3>
+                    <p style="color: white">CNP: {{ $socialSecurityNumber }}</p>
+                    <p style="color: white">Judet: {{ $county[0] }}</p>
+                    <p style="color: white">Data nasterii: {{ $birthDay }}</p>
+                    <p style="color: white">Sex: {{ $sex }}</p>
                 @endif
-
             </div>
         </div>
     </body>

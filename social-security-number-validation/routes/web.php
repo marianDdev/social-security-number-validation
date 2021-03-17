@@ -1,7 +1,7 @@
 <?php
 
 //use App\Http\Controllers\SocialSecurityNumberController;
-use App\Http\Controllers\TestCnpController;
+use App\Http\Controllers\ValidateSsnController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +22,6 @@ Route::get('/', function () {
 //Route::get('/validate/cnp', [SocialSecurityNumberController::class, 'getValidationView'])->name("get");
 //Route::post('/validate', [SocialSecurityNumberController::class, 'validateCNP'])->name("validate");
 
-Route::get('/post/create', [TestCnpController::class, 'create']);
-Route::post('/post', [TestCnpController::class, 'store']);
+Route::get('/ssn/validate', [ValidateSsnController::class, 'getValidationView']);
+Route::post('/ssn', [ValidateSsnController::class, 'validateSsn']);
 

@@ -21,10 +21,10 @@
         </style>
     </head>
     <body class="antialiased">
+        <h1 style="text-align: center">Valideaza CNP</h1>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <form action="/post" method="post">
+                <form action="/ssn" method="post">
                     @csrf
                     <label for="cnp">
                         <input id="cnp" name="cnp">
@@ -37,7 +37,7 @@
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <li style="color: white">{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
