@@ -22,15 +22,16 @@
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-<h1>HELLO!!!</h1>
+
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <form action="/validate" method="post">
+                <form action="/post" method="post">
                     @csrf
                     <label for="cnp">
                         <input id="cnp" name="cnp">
                     </label>
-                    <button type="submit">Verifica CNP-UL VIETII</button>
+                    <button type="submit">Verifica CNP</button>
                 </form>
+
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
